@@ -61,13 +61,13 @@ export function Testimonials({ testimonials }: TestimonialsProps) {
             </Reveal>
           ))}
         </div>
-      </div>
-    </section>
-  );
-}
-<a
+        <a
               href="#contacto"
               className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 text-base font-semibold text-white shadow-lg transition-all hover:brightness-110 hover:shadow-xl"
             >
               Marcar consulta de avaliação
             </a>
+      </div>
+    </section>
+  );
+}
