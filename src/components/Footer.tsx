@@ -33,9 +33,9 @@ export function Footer({ clinic }: FooterProps) {
                 {brandText}
               </h3>
             )}
-            {clinic.footer_note && (
-              <p className="text-sm text-white/60">{clinic.footer_note}</p>
-            )}
+            <p className="text-sm text-white/60">
+  Esta landing page é um modelo de apresentação. Todos os conteúdos, imagens e informações serão personalizados de acordo com a identidade e necessidades da clínica.
+</p>
           </div>
 
           {/* Nav */}
