@@ -22,7 +22,7 @@ interface ClinicOption {
 }
 
 export default function App() {
-  const [slug, setSlug] = useState('lumiere');
+  const [slug, setSlug] = useState('');
   const [clinics, setClinics] = useState<ClinicOption[]>([]);
   const { data, loading, error } = useClinic(slug);
 
@@ -32,30 +32,41 @@ export default function App() {
       .select('slug, name, city')
       .order('name')
       .then(({ data: rows }) => {
-        if (rows) setClinics(rows as ClinicOption[]);
+        if (rows && rows.length > 0) {
+          setClinics(rows as ClinicOption[]);
+          setSlug(rows[0].slug);
+        }
       });
   }, []);
 
   useEffect(() => {
     if (data) {
       applyClinicTheme(data.clinic);
-      const titleParts = [data.clinic.name, data.clinic.tagline].filter(Boolean);
-      document.title = titleParts.length
-        ? titleParts.join(' · ')
-        : 'Clínica · Medicina Estética';
+
+      document.title = data.clinic.name;
     }
   }, [data]);
 
   if (loading) return <LoadingScreen />;
-  if (error) return <ErrorScreen message={error} />;
-  if (!data) return <ErrorScreen message="Clínica não encontrada." />;
 
-  const { clinic, features, process, treatments, beforeAfter, testimonials, faqs } =
-    data;
+  if (error) return <ErrorScreen message={error} />;
+
+  if (!data) return <LoadingScreen />;
+
+  const {
+    clinic,
+    features,
+    process,
+    treatments,
+    beforeAfter,
+    testimonials,
+    faqs,
+  } = data;
 
   return (
     <>
       <Header clinic={clinic} />
+
       <main>
         <Hero clinic={clinic} />
         <Treatments treatments={treatments} />
@@ -66,7 +77,9 @@ export default function App() {
         <Faq faqs={faqs} />
         <Contact clinic={clinic} />
       </main>
+
       <Footer clinic={clinic} />
+
       <ClinicSwitcher
         clinics={clinics}
         currentSlug={slug}

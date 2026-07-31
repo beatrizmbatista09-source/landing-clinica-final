@@ -1,6 +1,5 @@
 import { useState, type FormEvent } from 'react';
 import { Check, Loader2, MapPin, Phone, Mail, Clock } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
 import { Reveal } from './Reveal';
 import type { Clinic } from '@/types/clinic';
 
@@ -23,26 +22,14 @@ export function Contact({ clinic }: ContactProps) {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setStatus('submitting');
-    const { error } = await supabase.from('leads').insert({
-      clinic_id: clinic.id,
-      name: form.name,
-      phone: form.phone,
-      email: form.email,
-      message: form.message,
-      preferred_time: form.preferred_time,
-    });
-    if (error) {
-      setStatus('error');
-      return;
-    }
     setStatus('success');
-    setForm({
-      name: '',
-      phone: '',
-      email: '',
-      message: '',
-      preferred_time: '',
-    });
+setForm({
+  name: '',
+  phone: '',
+  email: '',
+  message: '',
+  preferred_time: '',
+});
   };
 
   const inputClass =
